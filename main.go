@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "embed"
+	"embed"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -10,7 +10,7 @@ import (
 )
 
 //go:embed amharic_bible.json
-var file []byte
+var f embed.FS
 
 type Track struct {
 	Name      string `json:"name,omitempty"`
@@ -54,6 +54,10 @@ func buildSearchableDocument(bible Bible) []Verse {
 }
 
 func main() {
+	file, err := f.ReadFile("amharic_bible.json")
+	if err != nil {
+		log.Fatal(err)
+	}
 	var bible Bible
 	if err := json.Unmarshal(file, &bible); err != nil {
 		log.Fatal(err)
