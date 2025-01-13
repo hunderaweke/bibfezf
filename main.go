@@ -1,14 +1,16 @@
 package main
 
 import (
+	_ "embed"
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
-	"os"
 
 	"github.com/ktr0731/go-fuzzyfinder"
 )
+
+//go:embed amharic_bible.json
+var file []byte
 
 type Track struct {
 	Name      string `json:"name,omitempty"`
@@ -52,16 +54,8 @@ func buildSearchableDocument(bible Bible) []Verse {
 }
 
 func main() {
-	file, err := os.Open("amharic_bible.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	data, err := io.ReadAll(file)
-	if err != nil {
-		log.Fatal(err)
-	}
 	var bible Bible
-	if err := json.Unmarshal(data, &bible); err != nil {
+	if err := json.Unmarshal(file, &bible); err != nil {
 		log.Fatal(err)
 	}
 	content := buildSearchableDocument(bible)
