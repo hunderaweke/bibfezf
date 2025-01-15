@@ -78,5 +78,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("Found: %v\n", idx)
+	selectedVerse := content[idx[0]]
+	p := fmt.Sprintf("%v %s %s: %d", selectedVerse.verse, selectedVerse.BookTitle, selectedVerse.Chapter, selectedVerse.Number)
+	fmt.Println(p)
 }
